@@ -1,0 +1,33 @@
+
+
+.k-animation-container{
+    z-index: 20002!important;
+}
+
+.k-scheduler-edit-dialog button[data-value="never"]{
+    display: none;
+}
+.k-scheduler-edit-dialog button[data-value="daily"]{
+    /* display: none; */
+}
+.k-scheduler-edit-dialog button[data-value="weekly"]{
+    /* display: none; */
+}
+.k-scheduler-edit-dialog button[data-value="monthly"]{
+    /* display: none; */
+}
+.k-scheduler-edit-dialog button[data-value="yearly"]{
+    /* display: none; */
+}
+
+
+
+
+
+#option-320cc11b-1c07-47ba-a82a-e27614c4e930-1,
+#option-320cc11b-1c07-47ba-a82a-e27614c4e930-2,
+#option-c51af490-fb6a-4039-bc88-117145ccfa69-1,
+#option-c51af490-fb6a-4039-bc88-117145ccfa69-2,
+#option-c51af490-fb6a-4039-bc88-117145ccfa69-3{
+  display: none;
+}

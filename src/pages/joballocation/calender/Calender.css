@@ -1,0 +1,27 @@
+/* .k-scheduler-edit-dialog button[data-value="never"]{
+    display: none;
+}
+.k-scheduler-edit-dialog button[data-value="daily"]{
+    display: none;
+}
+.k-scheduler-edit-dialog button[data-value="weekly"]{
+    display: none;
+}
+.k-scheduler-edit-dialog button[data-value="monthly"]{
+    display: none;
+}
+.k-scheduler-edit-dialog button[data-value="yearly"]{
+    display: none;
+} */
+
+.k-scheduler-head .k-scheduler-group:nth-child(2) {
+    display: none;
+  }
+
+  .k-animation-container {
+    z-index: 9999!important
+  }
+
+  .k-dialog-wrapper{
+    z-index: 9999!important
+  }

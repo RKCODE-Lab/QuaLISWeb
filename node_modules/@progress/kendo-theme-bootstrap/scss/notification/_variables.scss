@@ -1,0 +1,34 @@
+// Notification
+$notification-padding-x: $alert-padding-x !default;
+$notification-padding-y: $alert-padding-y !default;
+$notification-border-width: $alert-border-width !default;
+$notification-border-radius: $alert-border-radius !default;
+
+$notification-shadow: $popup-shadow !default;
+
+$notification-font-family: $font-family !default;
+$notification-font-size: $font-size-sm !default;
+$notification-line-height: $line-height !default;
+
+$notification-icon-offset: 3px !default;
+$notification-icon-spacing: $icon-spacing !default;
+
+$notification-bg: $component-bg !default;
+$notification-text: $component-text !default;
+$notification-border: $component-border !default;
+
+$notification-themes: () !default;
+
+@function notification-theme($name: null, $color: null) {
+    // sass-lint:disable indentation
+    @return (
+        border: tint( $color, 10 ),
+        color: shade( $color, 6 ),
+        bg: tint( $color, 9 )
+    );
+    // sass-lint:enable indentation
+}
+
+@each $theme, $props in $theme-colors {
+    $notification-themes: map-merge($notification-themes, ($theme: notification-theme($theme, $props)) );
+}

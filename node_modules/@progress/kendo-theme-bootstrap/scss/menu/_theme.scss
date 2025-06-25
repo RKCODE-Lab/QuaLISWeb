@@ -1,0 +1,11 @@
+@import "../../modules/@progress/kendo-theme-default/scss/menu/_theme.scss";
+
+@include exports("menu/theme/bootstrap") {
+
+    .k-context-menu-popup {
+        .k-header {
+            color: inherit;
+        }
+    }
+
+}

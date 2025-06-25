@@ -1,0 +1,45 @@
+@import "../../modules/@progress/kendo-theme-default/scss/datetime/_layout.scss";
+
+@include exports("datetime/layout/bootstrap") {
+
+    .k-datepicker,
+    .k-datetimepicker,
+    .k-timepicker {
+        .k-picker-wrap,
+        .k-select {
+            transition: $transition;
+        }
+    }
+
+    // Datetimepicker
+    .k-datetimepicker {}
+
+    // Dateinput
+    .k-dateinput {
+        .k-dateinput-wrap,
+        .k-select {
+            transition: $transition;
+        }
+    }
+
+    // Timepicker header
+    .k-time-header {
+        padding: $time-header-padding;
+
+        .k-title {
+            font-weight: bold;
+        }
+
+        .k-time-now {
+            cursor: pointer;
+        }
+    }
+
+    // Timepicker content
+    .k-time-list-wrapper {
+        .k-title {
+            z-index: 12;
+            font-size: $font-size-xs;
+        }
+    }
+}

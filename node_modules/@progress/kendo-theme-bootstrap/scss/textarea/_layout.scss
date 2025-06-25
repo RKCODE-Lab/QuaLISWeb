@@ -1,0 +1,10 @@
+@import "../../modules/@progress/kendo-theme-default/scss/textarea/_layout.scss";
+
+@include exports("textarea/layout/bootstrap") {
+
+    //  Textarea
+    .k-textarea {
+        transition: $transition;
+    }
+
+}

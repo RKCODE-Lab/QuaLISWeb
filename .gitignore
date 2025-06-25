@@ -1,0 +1,10 @@
+#Ignore .svn directory
+/.svn/
+
+#Ignore .vscode directory
+/.vscode/
+
+
+
+
+

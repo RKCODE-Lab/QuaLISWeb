@@ -1,0 +1,56 @@
+@import "../../modules/@progress/kendo-theme-default/scss/pager/_theme.scss";
+
+@include exports( "pager/theme/bootstrap" ) {
+
+
+    // Pager
+    .k-pager-wrap {
+
+        select.k-dropdown,
+        .k-dropdown .k-dropdown-wrap {
+            @include fill(
+                $pager-text,
+                $pager-item-bg,
+                $pager-item-border
+            );
+
+            &:hover,
+            &.k-state-hover {
+                @include fill(
+                    $pager-text,
+                    $pager-item-hover-bg,
+                    $pager-item-hover-border
+                );
+            }
+        }
+
+    }
+
+
+    // Responsive
+    .k-pager-md,
+    .k-pager-sm {
+
+        .k-pager-numbers {
+
+            .k-current-page .k-link {
+                @include fill(
+                    $pager-text,
+                    $pager-item-bg,
+                    $pager-item-border
+                );
+
+                &:hover,
+                &.k-state-hover {
+                    @include fill(
+                        $pager-text,
+                        $pager-item-hover-bg,
+                        $pager-item-hover-border
+                    );
+                }
+            }
+
+        }
+    }
+
+}

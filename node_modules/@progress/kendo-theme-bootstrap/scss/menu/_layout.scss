@@ -1,0 +1,34 @@
+@import "../../modules/@progress/kendo-theme-default/scss/menu/_layout.scss";
+
+@include exports("menu/layout/bootstrap") {
+
+    .k-menu.k-menu-horizontal:not(.k-context-menu) {
+        padding: $navbar-padding-y $navbar-padding-x;
+    }
+    .k-menu.k-menu-vertical:not(.k-context-menu) {
+        padding: $navbar-padding-y 0;
+    }
+
+    .k-menu-group,
+    .k-menu-vertical {
+
+        .k-menu-popup & {
+            padding: 0;
+        }
+    }
+
+    .k-context-menu-popup {
+        > .k-popup:not(.k-menu-popup) {
+            padding: 0;
+        }
+
+        .k-context-menu {
+            @include border-radius( $border-radius );
+        }
+
+        .k-header {
+            font-size: inherit;
+            font-weight: inherit;
+        }
+    }
+}

@@ -1,0 +1,10 @@
+@import "../../modules/@progress/kendo-theme-default/scss/input/_layout.scss";
+
+@include exports("input/layout/bootstrap") {
+
+    // Input, Textbox
+    .k-textbox {
+        transition: $transition;
+    }
+
+}
