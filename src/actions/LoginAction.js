@@ -17,7 +17,7 @@ import messages_fr from '../assets/translations/fr.json';
 import { PostgreSQLMaintenance, transactionStatus } from '../components/Enumeration';
 import { callService } from './ServiceAction';
 import ConfirmMessage from '../components/confirm-alert/confirm-message.component';
-import { loadCaptchaEnginge } from 'react-simple-captcha';
+//import { loadCaptchaEnginge } from 'react-simple-captcha';
 
 
 const messages = {
