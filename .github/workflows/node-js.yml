@@ -1,0 +1,101 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Build and Deploy the React version 16.14.1 app on EC2's Tomcat 10.1.41
+on:
+  push:
+    branches: [main]
+jobs:
+  build-deploy:
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        node-version: [16.8]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    # Setup Node.js version 16.8
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+      env:
+        CI: true
+        
+    # Build the React app (no npm ci since node_modules is included)
+    - name: Build React app
+      run: npm run build
+
+    # Check, delete, and create QuaLISWeb directory in Tomcat webapps
+    - name: Manage QuaLISWeb directory
+      env:
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+        EC2_USER: ${{ secrets.EC2_USER }}
+        EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        TOMCAT_WEBAPPS_PATH: ${{ secrets.TOMCAT_WEBAPPS_PATH }}
+      run: |
+        # Create a temporary file for the SSH key
+        echo "$EC2_SSH_KEY" > ssh_key.pem
+        chmod 600 ssh_key.pem
+
+        # SSH into EC2 and manage the QuaLISWeb directory
+        ssh -i ssh_key.pem -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
+        
+        # Define the target directory
+          TARGET_DIR="$TOMCAT_WEBAPPS_PATH/QuaLISWeb"
+
+        # Check if the directory exists
+          if [ -d "$TARGET_DIR" ]; then
+            echo "Directory $TARGET_DIR exists. Deleting it..."
+            rm -rf "$TARGET_DIR"
+          else
+            echo "Directory $TARGET_DIR does not exist."
+          fi
+
+          # Create the new QuaLISWeb directory
+          echo "Creating new directory $TARGET_DIR..."
+          mkdir -p "$TARGET_DIR"
+
+          # Set appropriate permissions for Tomcat
+          chmod -R 755 "$TARGET_DIR"
+          chown -R $EC2_USER:$EC2_USER "$TARGET_DIR"
+        EOF
+
+        # Clean up
+        rm ssh_key.pem
+      
+   # Deploy to EC2 Tomcat
+    - name: Deploy to EC2 Tomcat
+      env:
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+        EC2_USER: ${{ secrets.EC2_USER }}
+        EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        TOMCAT_WEBAPPS_PATH: ${{ secrets.TOMCAT_WEBAPPS_PATH }}
+      run: |
+        # Create a temporary file for the SSH key
+        echo "$EC2_SSH_KEY" > ssh_key.pem
+        chmod 600 ssh_key.pem
+
+        # Copy build files to Tomcat webapps directory (e.g., /opt/tomcat/webapps/ROOT)
+        rsync -avz --delete -e "ssh -i ssh_key.pem -o StrictHostKeyChecking=no" ./build/ $EC2_USER@$EC2_HOST:$TOMCAT_WEBAPPS_PATH/QuaLISWeb/
+
+        # Clean up
+        rm ssh_key.pem
+
+    # Restart Tomcat
+    - name: Restart Tomcat
+      env:
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+        EC2_USER: ${{ secrets.EC2_USER }}
+        EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+      run: |
+        # Recreate SSH key file
+        echo "$EC2_SSH_KEY" > ssh_key.pem
+        chmod 600 ssh_key.pem
+
+        # Restart Tomcat service
+        ssh -i ssh_key.pem -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "sudo systemctl restart tomcat"
+
+        # Clean up
+        rm ssh_key.pem
