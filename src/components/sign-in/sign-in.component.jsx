@@ -138,8 +138,8 @@ class SignIn extends React.Component {
                 >
                 </FormSelectSearch> : ""
                 }
-                {/* Added for sonia on 16th June 2025 for jira id:ALPD-6028 (Captcha Validation) }
-                {parseInt(this.props.Login.captchaNeeded)===transactionStatus.YES ? 
+                {/* Added for sonia on 16th June 2025 for jira id:ALPD-6028 (Captcha Validation)*/}
+                {/*parseInt(this.props.Login.captchaNeeded)===transactionStatus.YES ? 
                     <div className='canvas'>                            
                         <LoadCanvasTemplate />
                         <div
@@ -168,7 +168,7 @@ class SignIn extends React.Component {
 
                         />
                     </div>                        
-                :""} */
+                :""*/}
                     
                
 
