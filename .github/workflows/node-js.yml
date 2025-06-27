@@ -21,8 +21,18 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
       env:
-        CI: true
+        CI: true   
         
+    # Change the react-scripts file with executable rights
+    - name: Change the react-scripts file with executable rights
+      env:
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+        EC2_USER: ${{ secrets.EC2_USER }}
+        EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}         
+      run: |
+       #Applying executable rights on react-scripts file
+       chmod +x ~/QuaLISWeb-Runner/actions-runner/QuaLISWeb-Work/QuaLISWeb/QuaLISWeb/node_modules/.bin/react-scripts
+
     # Build the React app (no npm ci since node_modules is included)
     - name: Build React app
       run: npm run build
