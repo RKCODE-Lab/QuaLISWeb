@@ -20,8 +20,8 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-      env:
-        CI: true   
+      #env:
+        #CI: true   
         
     # Change the react-scripts file with executable rights
     - name: Change the react-scripts file with executable rights
@@ -31,11 +31,14 @@ jobs:
         EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}         
       run: |
        #Applying executable rights on react-scripts file
+       set -e
        chmod +x ~/QuaLISWeb-Runner/actions-runner/QuaLISWeb-Work/QuaLISWeb/QuaLISWeb/node_modules/.bin/react-scripts
 
     # Build the React app (no npm ci since node_modules is included)
-    - name: Build React app
-      run: npm run build
+    - name: Build React app            
+      run: |
+            set -e
+            npm run build
 
     # Check, delete, and create QuaLISWeb directory in Tomcat webapps
     - name: Manage QuaLISWeb directory
