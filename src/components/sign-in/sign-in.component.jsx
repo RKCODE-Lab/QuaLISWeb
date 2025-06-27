@@ -17,7 +17,7 @@ import ChangePassword from '../../pages/Login/ChangePassWord';
 import { changePasswordValidation, fnPassMessage, fnValidatePassword } from '../../pages/Login/LoginCommonFunction';
 import { LOGINTYPE, transactionStatus } from '../Enumeration'
 import { Form } from 'react-bootstrap';
-import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+//import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 
 
 const mapStateToProps = (state) => {
@@ -138,7 +138,7 @@ class SignIn extends React.Component {
                 >
                 </FormSelectSearch> : ""
                 }
-                {/* Added for sonia on 16th June 2025 for jira id:ALPD-6028 (Captcha Validation) */}
+                {/* Added for sonia on 16th June 2025 for jira id:ALPD-6028 (Captcha Validation) }
                 {parseInt(this.props.Login.captchaNeeded)===transactionStatus.YES ? 
                     <div className='canvas'>                            
                         <LoadCanvasTemplate />
@@ -168,7 +168,7 @@ class SignIn extends React.Component {
 
                         />
                     </div>                        
-                :""} 
+                :""} */
                     
                
 
@@ -511,7 +511,7 @@ class SignIn extends React.Component {
                 nlogintypecode = LOGINTYPE.INTERNAL;
             }
             //Added for sonia on 16th June 2025 for jira id:ALPD-6028 (Captcha Validation)
-            if(parseInt(this.props.Login.captchaNeeded)=== transactionStatus.YES){
+            /*if(parseInt(this.props.Login.captchaNeeded)=== transactionStatus.YES){
                 let userCaptcha = this.state.selectedRecord.scaptcha;
                 if(validateCaptcha(userCaptcha) !== true){
                     toast.warn(this.props.intl.formatMessage({ id: "IDS_INVALIDCAPTCHA" })); 
@@ -538,7 +538,7 @@ class SignIn extends React.Component {
                     }
                     this.props.clickOnLoginButton(inputParam,this.props.Login.languageList);    
                 }
-            }else{
+            }else{*/
                 const inputParam = {
                         nusermultisitecode: selectedRecord.nusersitecode.value,
                         nusermultirolecode: selectedRecord.nusermultirolecode.value,
@@ -558,7 +558,7 @@ class SignIn extends React.Component {
                         nsitecode:selectedRecord.nusersitecode.item.nsitecode
                 }
                 this.props.clickOnLoginButton(inputParam,this.props.Login.languageList);   
-            }
+           // }
            
 
 
@@ -575,11 +575,11 @@ class SignIn extends React.Component {
         }
         
         //Added for sonia on 16th June 2025 for jira id:ALPD-6028 (Captcha Validation)
-        if(!this.state.captchaKey && parseInt(this.props.Login.captchaNeeded) === transactionStatus.YES) {
+        /*if(!this.state.captchaKey && parseInt(this.props.Login.captchaNeeded) === transactionStatus.YES) {
             //6 numberOfCharacters, backgroundColor = '#D3D3D3', fontColor = '#000000', charMap = 'upper/lower/numbers'
             loadCaptchaEnginge(6,'#D3D3D3');
             this.setState({captchaKey:true})
-       }
+       }*/
         
         let selectedRecord = this.state.selectedRecord || {};
         let createPwdRecord = this.state.createPwdRecord || {};
