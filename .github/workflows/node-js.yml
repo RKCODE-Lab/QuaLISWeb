@@ -48,48 +48,45 @@ jobs:
 
       - name: Prepare SSH Key for EC2
         env:
-          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          EC2_SSH_KEY: ${{secrets.EC2_SSH_KEY}}
         run: |
           echo "$EC2_SSH_KEY" > ssh_key.pem
           chmod 600 ssh_key.pem
-
       - name: Manage QuaLISWeb Directory on EC2
         env:
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_HOST: ${{secrets.EC2_HOST}}
+          EC2_USER: ${{secrets.EC2_USERNAME}}
           TOMCAT_WEBAPPS_PATH: ${{ secrets.TOMCAT_WEBAPPS_PATH }}
         run: |
           echo "EC2_USER=$EC2_USER"
-          echo "EC2_HOST=$EC2_HOST"
-         
+          echo "EC2_HOST=$EC2_HOST"         
           ssh -i ssh_key.pem -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
             TARGET_DIR="$TOMCAT_WEBAPPS_PATH/QuaLISWeb"
-
             if [ -d "$TARGET_DIR" ]; then
               echo "Directory $TARGET_DIR exists. Deleting it..."
-              sudo rm -rf "$TARGET_DIR"
+              rm -rf "$TARGET_DIR"
+              echo "Error in Removing the directory $TARGET_DIR "
             else
               echo "Directory $TARGET_DIR does not exist."
             fi
-
             echo "Creating new directory $TARGET_DIR..."
             mkdir -p "$TARGET_DIR"
             chmod -R 755 "$TARGET_DIR"
-            chown -R $USER:$USER "$TARGET_DIR"
+            chown -R $EC2_USER:$EC2_USER "$TARGET_DIR"
           EOF
 
       - name: Deploy React App to EC2 Tomcat
         env:
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-          EC2_USER: ${{ secrets.EC2_USER }}
-          TOMCAT_WEBAPPS_PATH: ${{ secrets.TOMCAT_WEBAPPS_PATH }}
+          EC2_HOST: ${{secrets.EC2_HOST}}
+          EC2_USER: ${{secrets.EC2_USERNAME}}
+          TOMCAT_WEBAPPS_PATH: ${{secrets.TOMCAT_WEBAPPS_PATH}}
         run: |
           rsync -avz --delete -e "ssh -i ssh_key.pem -o StrictHostKeyChecking=no" ./build/ $EC2_USER@$EC2_HOST:$TOMCAT_WEBAPPS_PATH/QuaLISWeb/
 
       - name: Restart Tomcat on EC2
         env:
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_HOST: ${{secrets.EC2_HOST}}
+          EC2_USER: ${{secrets.EC2_USERNAME}}
         run: |
           ssh -i ssh_key.pem -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "sudo systemctl restart tomcat"
 
